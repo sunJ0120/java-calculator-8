@@ -17,6 +17,9 @@ public class Formula {
     }
 
     public void validation(String formula) {
+        if(formula == null){
+            throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
+        }
         if (formula.startsWith("//")) {
             validCustomFormula(formula); // 커스텀 형식 검증
         } else {
@@ -25,31 +28,41 @@ public class Formula {
     }
 
     private void validCustomFormula(String formula) {
-        String customRegExp = "^//.+\\n.+$";
-        if (!Pattern.matches(customRegExp, formula)) {
+        // 구분자가 있는지, 개행 문자가 있는지
+        int endInd = formula.indexOf("\\n");
+        if (endInd == -1 || endInd == 2) { //\n이 없거나 정의한 구분자가 없을 때
+            System.out.println("입력 형식이 잘못되었습니다.");
             throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
         }
     }
 
     private void validBasicFormula(String formula) {
-        String basicRegExp = "\\d+([,:]\\d+)*$";
+        String basicRegExp = "(\\d+([,:]\\d+)*$)?"; //TODO : 우선 빈칸도 포함
         if (!Pattern.matches(basicRegExp, formula)) {
             throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
         }
     }
 
     private String extractSeparator(String formula) {
+        if (formula.isBlank()) {
+            return "";
+        }
+
         if (formula.startsWith("//")) { // 커스텀 형식일 경우
-            int numberIdx = formula.indexOf("\n");
+            int numberIdx = formula.indexOf("\\n");
             return formula.substring(2, numberIdx);
         }
         return ":|,";
     }
 
     private String extractFormula(String formula) {
+        if (formula.isBlank()) {
+            return "0";
+        }
+
         if (formula.startsWith("//")) { // 커스텀 형식일 경우
-            int numberIdx = formula.indexOf("\n");
-            return formula.substring(numberIdx + 1);
+            int numberIdx = formula.indexOf("\\n");
+            return formula.substring(numberIdx + 2);
         }
         return formula;
     }
@@ -63,7 +76,7 @@ public class Formula {
     }
 
     public String[] toNumbers() {
-        if(":|,".equals(separator)) {
+        if (":|,".equals(separator)) {
             return formula.split(separator);
         }
         return formula.split(Pattern.quote(separator));
