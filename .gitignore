@@ -39,3 +39,6 @@ out/
 package.json
 package-lock.json
 node_modules/
+
+### pr 템플릿 설정 ###
+.github/
