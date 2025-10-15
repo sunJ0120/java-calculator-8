@@ -63,6 +63,9 @@ public class Formula {
     }
 
     public String[] toNumbers() {
+        if(":|,".equals(separator)) {
+            return formula.split(separator);
+        }
         return formula.split(Pattern.quote(separator));
     }
 }
