@@ -57,7 +57,7 @@ class FormulaTest {
     @Test
     void 커스텀_문자열_구분자_다를때() {
         //given
-        String test = "//;\n10:11+12";
+        String test = "//;\\n10:11+12";
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
@@ -79,7 +79,7 @@ class FormulaTest {
     @Test
     void 커스텀_문자열에_구분자_여러개_일때() {
         //given
-        String test = "//:+:\n10:+:11:+:12";
+        String test = "//:+:\\n10:+:11:+:12";
 
         //when
         Formula formula = new Formula(test);
@@ -89,9 +89,21 @@ class FormulaTest {
     }
 
     @Test
+    void 커스텀_문자열에_구분자_있는데_수식에_없을때() {
+        //given
+        String test = "//;\\n1";
+
+        //when
+        Formula formula = new Formula(test);
+
+        //then
+        assertThat(formula.toNumbers()).containsExactly("1");
+    }
+
+    @Test
     void 커스텀_문자열_시작_틀렸을때() {
         //given
-        String test = ":+:\n10:+:11:+:12";
+        String test = ":+:\\n10:+:11:+:12";
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
