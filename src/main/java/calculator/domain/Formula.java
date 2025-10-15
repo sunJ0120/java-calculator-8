@@ -25,7 +25,7 @@ public class Formula {
     }
 
     private void validCustomFormula(String formula) {
-        String customRegExp = "^//.\\n";
+        String customRegExp = "^//.+\\n.+$";
         if (!Pattern.matches(customRegExp, formula)) {
             throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
         }
@@ -56,13 +56,13 @@ public class Formula {
 
     //커스텀 수식 검증
     private void validCustomFormulaDetail(String formula, String separator) {
-        String regExp = "\\d+([" + separator + "]\\d+)*$";
+        String regExp = "\\d+(" + Pattern.quote(separator) + "\\d+)*$";
         if (!Pattern.matches(regExp, formula)) {
             throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
         }
     }
 
     public String[] toNumbers() {
-        return formula.split(separator);
+        return formula.split(Pattern.quote(separator));
     }
 }
