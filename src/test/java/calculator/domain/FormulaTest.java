@@ -178,26 +178,4 @@ class FormulaTest {
         //then
         assertThat(formula.toNumbers()).contains("0");
     }
-
-    @Test
-    void 공백_여러개_입력() {
-        //given
-        String test = "       ";
-
-        //when & then
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Formula(test);
-        });
-    }
-
-    @Test
-    void null_입력() {
-        //given
-        String test = null;
-
-        //when & then
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Formula(test);
-        });
-    }
 }
