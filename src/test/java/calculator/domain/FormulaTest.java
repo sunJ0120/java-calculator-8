@@ -186,6 +186,6 @@ class FormulaTest {
         Formula formula = new Formula(test);
 
         //then
-        assertThat(formula.toNumbers()).containsExactly("0");
+        assertThat(formula.toNumbers()).isEmpty();
     }
 }
