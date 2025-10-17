@@ -16,7 +16,7 @@ public class Formula {
     private static final String CUSTOM_DELIMITER = "\\n";
     private static final String BASIC_SEPARATOR = ":|,";
     private static final String BASIC_REGEX = "\\d+([,:]\\d+)*$";
-    private static final String BLANK_FORMULA_VALUE = "0";
+    private static final String BLANK_FORMULA_VALUE = "";
     private static final String BLANK_SEPARATOR = "";
     private static final int CUSTOM_PREFIX_LENGTH = CUSTOM_PREFIX.length();
     private static final int CUSTOM_DELIMITER_LENGTH = CUSTOM_DELIMITER.length();
@@ -92,6 +92,9 @@ public class Formula {
     }
 
     public String[] toNumbers() {
+        if (BLANK_FORMULA_VALUE.equals(formula)) {    // 빈 입력 체크 추가
+            return new String[0];
+        }
         if (BASIC_SEPARATOR.equals(separator)) {    // 구분자가 , or : 인 일반 수식일 경우
             return formula.split(separator);
         }
