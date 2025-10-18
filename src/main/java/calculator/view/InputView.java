@@ -1,16 +1,14 @@
+package calculator.view;
+
+import camp.nextstep.edu.missionutils.Console;
+
 /**
  * 클래스 이름: InputView
  * <p>
  * 버전 정보: 1.1
  * <p>
- * 날짜: 2025-10-16
- * <p>
- * 저작권 주의: Copyright (c) 2025 sspur
+ * 날짜: 2025-10-17
  */
-package calculator.view;
-
-import camp.nextstep.edu.missionutils.Console;
-
 public class InputView {
     private static final String INPUT_MESSAGE = "덧셈할 문자열을 입력해 주세요.";
 

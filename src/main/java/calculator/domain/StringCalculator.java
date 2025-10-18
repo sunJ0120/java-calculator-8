@@ -1,16 +1,14 @@
+package calculator.domain;
+
+import calculator.domain.exception.InvalidNumberException;
+
 /**
  * 클래스 이름: StringCalculator
  * <p>
  * 버전 정보: 1.1
  * <p>
  * 날짜: 2025-10-17
- * <p>
- * 저작권 주의: Copyright (c) 2025 sspur
  */
-package calculator.domain;
-
-import calculator.domain.exception.InvalidNumberException;
-
 public class StringCalculator {
     private final String[] numbers;    // 받은 숫자들
 

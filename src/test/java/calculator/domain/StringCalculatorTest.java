@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test;
  * 버전 정보:
  * <p>
  * 날짜: 2025-10-17
- * <p>
- * 저작권 주의: Copyright (c) 2025 sspur
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StringCalculatorTest {

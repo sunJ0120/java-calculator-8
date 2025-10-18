@@ -1,16 +1,14 @@
+package calculator.domain;
+
+import java.util.regex.Pattern;
+
 /**
  * 클래스 이름: Formula
  * <p>
  * 버전 정보: 1.1
  * <p>
  * 날짜: 2025-10-16
- * <p>
- * 저작권 주의: Copyright (c) 2025 sspur
  */
-package calculator.domain;
-
-import java.util.regex.Pattern;
-
 public class Formula {
     private static final String CUSTOM_PREFIX = "//";
     private static final String CUSTOM_DELIMITER = "\\n";
