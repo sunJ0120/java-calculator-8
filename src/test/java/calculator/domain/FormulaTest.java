@@ -54,7 +54,7 @@ class FormulaTest {
     @CustomFormulaTest
     void 경계_다를때() {
         //given
-        String test = "//;\\v10;11;12";
+        String test = "//;\\vn10;11;12";
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
@@ -167,7 +167,7 @@ class FormulaTest {
     @CustomFormulaTest
     void 커스텀_구분자_연속될때() {
         //given
-        String test = "//.\n5......6.7.8";
+        String test = "//.\\n5......6.7.8";
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
@@ -185,5 +185,27 @@ class FormulaTest {
 
         //then
         assertThat(formula.toNumbers()).isEmpty();
+    }
+
+    @CustomFormulaTest
+    void 개행문자가_구분자_일때() throws Exception {
+        //given
+        String test = "//\\n\\n5\\n6\\n7\\n8";
+
+        //when
+        Formula formula = new Formula(test);
+
+        //then
+        assertThat(formula.toNumbers()).containsExactly("5", "6", "7", "8");
+    }
+    @CustomFormulaTest
+    void 구분자_없을때() throws Exception {
+        //given
+        String test = "//\\n5";
+
+        //when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Formula(test);
+        });
     }
 }
