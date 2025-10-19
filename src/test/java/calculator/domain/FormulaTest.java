@@ -213,22 +213,24 @@ class FormulaTest {
     @BasicFormulaTest
     void 음수_들어올때() {
         //given
-        String test = "10:-20,-30:40,-50";
+        String test = "10:-20,-30:40";
 
-        //when & then
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Formula(test);
-        });
+        //when
+        Formula formula = new Formula(test);
+
+        //then
+        assertThat(formula.toNumbers()).containsExactly("10", "-20", "-30", "40");
     }
 
     @CustomFormulaTest
     void 음수_들어올때_2() throws Exception {
         //given
-        String test = "//*\\n10*-20*-30*40*-50";
+        String test = "//*\\n10*-20*-30*40";
 
-        //when & then
-        assertThrows(IllegalArgumentException.class, () -> {
-            new Formula(test);
-        });
+        //when
+        Formula formula = new Formula(test);
+
+        //then
+        assertThat(formula.toNumbers()).containsExactly("10", "-20", "-30", "40");
     }
 }
