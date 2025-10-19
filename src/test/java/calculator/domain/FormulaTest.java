@@ -11,9 +11,9 @@ import org.junit.jupiter.api.DisplayNameGenerator;
 /**
  * 클래스 이름: FormulaTest
  * <p>
- * 버전 정보: 1.1
+ * 버전 정보: 1.2
  * <p>
- * 날짜: 2025-10-17
+ * 날짜: 2025-10-19
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class FormulaTest {
@@ -198,10 +198,33 @@ class FormulaTest {
         //then
         assertThat(formula.toNumbers()).containsExactly("5", "6", "7", "8");
     }
+
     @CustomFormulaTest
     void 구분자_없을때() throws Exception {
         //given
         String test = "//\\n5";
+
+        //when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Formula(test);
+        });
+    }
+
+    @BasicFormulaTest
+    void 음수_들어올때() {
+        //given
+        String test = "10:-20,-30:40,-50";
+
+        //when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Formula(test);
+        });
+    }
+
+    @CustomFormulaTest
+    void 음수_들어올때_2() throws Exception {
+        //given
+        String test = "//*\\n10*-20*-30*40*-50";
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
