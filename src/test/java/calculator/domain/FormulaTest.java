@@ -223,7 +223,7 @@ class FormulaTest {
     }
 
     @CustomFormulaTest
-    void 음수_들어올때_2() throws Exception {
+    void 음수_들어올때_2() {
         //given
         String test = "//*\\n10*-20*-30*40";
 

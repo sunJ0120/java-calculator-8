@@ -20,7 +20,7 @@ class StringCalculatorTest {
     void 정상_계산() {
         //given
         String[] numbers = {"10", "20", "30"};
-        StringCalculator calculator = new StringCalculator(numbers);    // 독립적으로 사용자 시나리오 대로 계산
+        StringCalculator calculator = new StringCalculator(numbers);
 
         //when
         int result = calculator.sum();
@@ -35,7 +35,7 @@ class StringCalculatorTest {
 
         //when & then
         assertThrows(IllegalArgumentException.class, () -> {
-            new StringCalculator(null);  // ← sum() 호출해야 함!
+            new StringCalculator(null);
         });
     }
 
@@ -53,7 +53,7 @@ class StringCalculatorTest {
     }
 
     @Test
-    void 음수_계산기_예외_발생() throws Exception {
+    void 음수_계산기_예외_발생() {
         //given
         String[] numbers = {"-10", "20", "-30", "40"};
         StringCalculator calculator = new StringCalculator(numbers);
