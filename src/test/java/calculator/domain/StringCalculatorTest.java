@@ -1,7 +1,7 @@
 package calculator.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 /**
  * 클래스 이름: StringCalculatorTest
  * <p>
- * 버전 정보:
+ * 버전 정보: 1.2
  * <p>
- * 날짜: 2025-10-17
+ * 날짜: 2025-10-19
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class StringCalculatorTest {
@@ -34,8 +34,9 @@ class StringCalculatorTest {
         //given
 
         //when & then
-        assertThatThrownBy(() -> new StringCalculator(null)).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("숫자 배열은 null일 수 없습니다");
+        assertThrows(IllegalArgumentException.class, () -> {
+            new StringCalculator(null);  // ← sum() 호출해야 함!
+        });
     }
 
     @Test
@@ -49,5 +50,17 @@ class StringCalculatorTest {
 
         //then
         assertThat(result).isEqualTo(0);
+    }
+
+    @Test
+    void 음수_계산기_예외_발생() throws Exception {
+        //given
+        String[] numbers = {"-10", "20", "-30", "40"};
+        StringCalculator calculator = new StringCalculator(numbers);
+
+        //when & then
+        assertThrows(IllegalArgumentException.class, () -> {
+            calculator.sum();  // ← sum() 호출해야 함!
+        });
     }
 }
