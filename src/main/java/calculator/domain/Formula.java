@@ -1,32 +1,34 @@
 package calculator.domain;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * 클래스 이름: Formula
  * <p>
- * 버전 정보: 1.1
+ * 버전 정보: 1.2
  * <p>
- * 날짜: 2025-10-16
+ * 날짜: 2025-10-19
  */
 public class Formula {
-    private static final String CUSTOM_PREFIX = "//";
-    private static final String CUSTOM_DELIMITER = "\\n";
+    private static final String CUSTOM_PREFIX_REGEX = "^//(.+?|\\\\n)\\\\n";    // 개행이 구분자인 경우 추가
     private static final String BASIC_SEPARATOR = ":|,";
     private static final String BASIC_REGEX = "\\d+([,:]\\d+)*$";
     private static final String BLANK_FORMULA_VALUE = "";
     private static final String BLANK_SEPARATOR = "";
-    private static final int CUSTOM_PREFIX_LENGTH = CUSTOM_PREFIX.length();
-    private static final int CUSTOM_DELIMITER_LENGTH = CUSTOM_DELIMITER.length();
+    private static final Pattern CUSTOM_PATTERN = Pattern.compile(CUSTOM_PREFIX_REGEX);
+    private static final Pattern BASIC_PATTERN = Pattern.compile(BASIC_REGEX);
 
     private final String separator;    // 구분자
     private final String formula;    //수식
 
     public Formula(String formula) {
-        boolean isCustom = formula.startsWith(CUSTOM_PREFIX);
+        Matcher customMatcher = CUSTOM_PATTERN.matcher(formula);
+        boolean isCustom = customMatcher.find();
+
         validation(formula, isCustom);    // 입력받은 수식 검증
-        this.separator = extractSeparator(formula, isCustom);
-        this.formula = extractFormula(formula, isCustom);
+        this.separator = extractSeparator(formula, isCustom, customMatcher);
+        this.formula = extractFormula(formula, isCustom, customMatcher);
 
         if (isCustom) {
             validateCustomFormulaDetail(this.formula, this.separator);
@@ -37,47 +39,28 @@ public class Formula {
         if (formula.isBlank()) {    // 빈 칸의 경우는 통과
             return;
         }
-        if (isCustom) {
-            validateCustomFormula(formula);    // 커스텀 형식 검증
-        } else {
-            validateBasicFormula(formula);    // 기본 형식 검증
+        if (isCustom || BASIC_PATTERN.matcher(formula).matches()) {
+            return;
         }
+        throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
     }
 
-    private void validateCustomFormula(String formula) {
-        // 구분자가 있는지, 개행 문자가 있는지
-        int endInd = formula.indexOf(CUSTOM_DELIMITER);
-        if (endInd == -1 || endInd == CUSTOM_PREFIX_LENGTH) {    // \n이 없거나, 정의한 구분자가 없을 때
-            throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
-        }
-    }
-
-    private void validateBasicFormula(String formula) {
-        if (!Pattern.matches(BASIC_REGEX, formula)) {
-            throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
-        }
-    }
-
-    private String extractSeparator(String formula, boolean isCustom) {
+    private String extractSeparator(String formula, boolean isCustom, Matcher customMatcher) {
         if (formula.isBlank()) {
             return BLANK_SEPARATOR;
         }
-
-        if (isCustom) {    // 커스텀 형식일 경우
-            int numberIdx = formula.indexOf(CUSTOM_DELIMITER);
-            return formula.substring(CUSTOM_PREFIX_LENGTH, numberIdx);
+        if (isCustom) {
+            return customMatcher.group(1);
         }
         return BASIC_SEPARATOR;
     }
 
-    private String extractFormula(String formula, boolean isCustom) {
+    private String extractFormula(String formula, boolean isCustom, Matcher customMatcher) {
         if (formula.isBlank()) {
             return BLANK_FORMULA_VALUE;
         }
-
-        if (isCustom) {    // 커스텀 형식일 경우
-            int numberIdx = formula.indexOf(CUSTOM_DELIMITER);
-            return formula.substring(numberIdx + CUSTOM_DELIMITER_LENGTH);
+        if (isCustom) {
+            return customMatcher.replaceFirst("");
         }
         return formula;
     }
