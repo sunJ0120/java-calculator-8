@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Formula {
     private static final String CUSTOM_PREFIX_REGEX = "^//(.+?|\\\\n)\\\\n";    // 개행이 구분자인 경우 추가
     private static final String BASIC_SEPARATOR = ":|,";
-    private static final String BASIC_REGEX = "\\d+([,:]\\d+)*$";
+    private static final String BASIC_REGEX = "-?\\d+([,:]-?\\d+)*$";
     private static final String BLANK_FORMULA_VALUE = "";
     private static final String BLANK_SEPARATOR = "";
     private static final Pattern CUSTOM_PATTERN = Pattern.compile(CUSTOM_PREFIX_REGEX);
@@ -66,7 +66,7 @@ public class Formula {
     }
 
     private void validateCustomFormulaDetail(String formula, String separator) {    // 커스텀 수식 검증
-        String regExp = "\\d+(" + Pattern.quote(separator) + "\\d+)*$";
+        String regExp = "-?\\d+(" + Pattern.quote(separator) + "-?\\d+)*$";
         if (!Pattern.matches(regExp, formula)) {
             throw new IllegalArgumentException("입력 형식이 잘못되었습니다.");
         }
